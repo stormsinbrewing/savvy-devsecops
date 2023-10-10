@@ -5,7 +5,8 @@
     "type": "git",
     "url": "https://github.com/NishkarshRaj/savvy-devsecops.git"
   },
-  "private": true,
+  "private": false,
+  "license": "UNLICENSED",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
