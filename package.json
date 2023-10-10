@@ -1,6 +1,10 @@
 {
-  "name": "savvy-devsecops",
-  "version": "0.1.0",
+  "name": "@nishkarshraj/savvy-devsecops",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NishkarshRaj/savvy-devsecops.git"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
