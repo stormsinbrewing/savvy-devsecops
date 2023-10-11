@@ -1,0 +1,28 @@
+name: Release GHPR Packages
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  package-binary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Repository to Runner Context
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: "https://npm.pkg.github.com"
+          cache: "yarn"
+          scope: "@nishkarshraj"
+      - name: Publish Binary to GitHub Packages
+        run: |
+          yarn install
+          yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
