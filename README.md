@@ -1,3 +1,5 @@
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/stormsinbrewing/savvy-devsecops/badge)](https://securityscorecards.dev/viewer/?uri=github.com/stormsinbrewing/savvy-devsecops)
+
 - [x] Build
 
 - [x] Test
