@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import App from './App'
+const { render } = require('@testing-library/react')
+const App = require('./App')
 
-test('renders link', () => {
-  render(<App />)
-  const linkElement = screen.getByText(/Follow me on GitHub/i)
+test('renders the App component', () => {
+  const { getByText } = render(<App />)
+  const linkElement = getByText(/learn react/i)
   expect(linkElement).toBeInTheDocument()
 })
