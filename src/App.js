@@ -1,13 +1,14 @@
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src="https://avatars.githubusercontent.com/u/35298207?v=4" alt="logo" />
-        <p>
-          Hello, World!
-        </p>
+        <img
+          src="https://avatars.githubusercontent.com/u/35298207?v=4"
+          alt="logo"
+        />
+        <p>Hello, World!</p>
         <a
           className="App-link"
           href="https://www.github.com/NishkarshRaj"
