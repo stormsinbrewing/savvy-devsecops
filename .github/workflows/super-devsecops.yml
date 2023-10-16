@@ -44,12 +44,10 @@ jobs:
           egress-policy: audit
       - name: Checkout code
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
-      - name: Install ESLint
-        run: |
-          npm install eslint@8.10.0
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
       - name: Run ESLint
-        run: npx eslint .
+        run: |
+          yarn install
+          npx eslint .
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
         continue-on-error: true
