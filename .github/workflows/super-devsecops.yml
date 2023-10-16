@@ -50,6 +50,7 @@ jobs:
           yarn test
   analysis:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
@@ -61,7 +62,7 @@ jobs:
             -Dsonar.organization=stormsinbrewing
   build-and-push-image:
     runs-on: ubuntu-latest
-    needs: test
+    needs: analysis
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
