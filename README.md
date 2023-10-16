@@ -11,3 +11,5 @@
 [x] CodeQL
 
 [x] Dependency Review
+
+[x] OpenSSF Security Scorecard
