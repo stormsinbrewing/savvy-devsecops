@@ -15,3 +15,11 @@
 - [x] Dependency Review
 
 - [x] OpenSSF Security Scorecard
+
+- [x] Step Security for Actions and Harden Runner: https://app.stepsecurity.io/
+
+- [x] Pre-Commits
+
+- [x] Eslint
+
+- [x] Prettier
