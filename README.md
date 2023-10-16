@@ -1,15 +1,15 @@
-[x] Build
+- [x] Build
 
-[x] Test
+- [x] Test
 
-[x] SonarCloud
+- [x] SonarCloud
 
-[x] Package: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+- [x] Package: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
-[x] Dockerize
+- [x] Dockerize
 
-[x] CodeQL
+- [x] CodeQL
 
-[x] Dependency Review
+- [x] Dependency Review
 
-[x] OpenSSF Security Scorecard
+- [x] OpenSSF Security Scorecard

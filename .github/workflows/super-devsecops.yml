@@ -17,6 +17,7 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -33,6 +34,7 @@ jobs:
         run: |
           yarn install
   test:
+    name: Unit Tests
     runs-on: ubuntu-latest
     needs: build
     strategy:
@@ -51,6 +53,7 @@ jobs:
           yarn install
           yarn test
   analysis:
+    name: SAST with SonarCloud
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -63,12 +66,12 @@ jobs:
           args: -Dsonar.projectKey=stormsinbrewing_savvy-devsecops
             -Dsonar.organization=stormsinbrewing
   security_scorecard:
-    name: Scorecard analysis
+    name: OpenSSF Security Scorecards
     runs-on: ubuntu-latest
     needs: analysis
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
         with:
           persist-credentials: false
       - name: "Run analysis"
@@ -76,9 +79,10 @@ jobs:
         with:
           results_file: results.sarif
           results_format: sarif
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           publish_results: true
       - name: "Upload artifact"
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         with:
           name: SARIF file
           path: results.sarif
@@ -88,6 +92,7 @@ jobs:
         with:
           sarif_file: results.sarif
   build-and-push-image:
+    name: BnP GHCR
     runs-on: ubuntu-latest
     needs: security_scorecard
     steps:
