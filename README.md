@@ -1,5 +1,7 @@
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/stormsinbrewing/savvy-devsecops/badge)](https://securityscorecards.dev/viewer/?uri=github.com/stormsinbrewing/savvy-devsecops)
 
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7960/badge)](https://bestpractices.coreinfrastructure.org/projects/7960)
+
 - [x] Build
 
 - [x] Test
@@ -23,3 +25,5 @@
 - [x] Eslint
 
 - [x] Prettier
+
+- [x] OpenSSF Best Practices: https://www.bestpractices.dev/en
