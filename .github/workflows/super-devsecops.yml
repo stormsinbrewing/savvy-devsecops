@@ -4,11 +4,6 @@ on:
   push:
     branches: ["main"]
 
-permissions:
-  pull-requests: read # allows SonarCloud to decorate PRs with analysis results
-  contents: read # Restrict Source access
-  packages: write # GHPR
-
 jobs:
   build:
     name: Build
@@ -48,6 +43,8 @@ jobs:
           yarn test
   analysis:
     name: SAST with SonarCloud
+    permissions:
+      pull-requests: read # allows SonarCloud to decorate PRs with analysis results
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -91,6 +88,9 @@ jobs:
           sarif_file: results.sarif
   build-and-push-image:
     name: BnP GHCR
+    permissions:
+      contents: read # Restrict Source access
+      packages: write # GHPR
     runs-on: ubuntu-latest
     needs: security_scorecard
     env:
