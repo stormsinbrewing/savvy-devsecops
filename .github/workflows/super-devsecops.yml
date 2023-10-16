@@ -8,8 +8,6 @@ permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
   contents: read # Restrict Source access
   packages: write # GHPR
-  security-events: write # Needed to upload the results to code-scanning dashboard.
-  id-token: write # Needed to publish results and get a badge (see publish_results below).
 
 env:
   REGISTRY: ghcr.io
@@ -68,6 +66,10 @@ jobs:
   security_scorecard:
     name: OpenSSF Security Scorecards
     runs-on: ubuntu-latest
+    permissions:
+      # Don't make global permission: https://github.com/ossf/scorecard-action#workflow-restrictions
+      security-events: write # Needed to upload the results to code-scanning dashboard.
+      id-token: write # Needed to publish results and get a badge (see publish_results below).
     needs: analysis
     steps:
       - name: "Checkout code"
