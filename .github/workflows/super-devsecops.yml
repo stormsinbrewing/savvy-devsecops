@@ -162,8 +162,8 @@ jobs:
     permissions:
       contents: read # Restrict Source access
       packages: write # GHPR
-    runs-on: sast_codeql
-    needs: security_scorecard
+    runs-on: ubuntu-latest
+    needs: sast_codeql
     env:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
