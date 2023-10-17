@@ -1,4 +1,4 @@
-List of best practices:
+List of best practices and standard End-to-End DevSecOps Pipeline
 
 - [x] Build
 
@@ -10,7 +10,7 @@ List of best practices:
 
 - [x] Dockerize
 
-- [x] CodeQL
+- [x] CodeQL (Best to run on all commits to any branch and PRs)
 
 - [x] Dependency Review
 
@@ -18,13 +18,13 @@ List of best practices:
 
 - [x] Step Security for Actions and Harden Runner: https://app.stepsecurity.io/
 
+- [x] OpenSSF Best Practices: https://www.bestpractices.dev/en
+
 - [x] Pre-Commits
 
 - [x] Eslint
 
 - [x] Prettier
-
-- [x] OpenSSF Best Practices: https://www.bestpractices.dev/en
 
 - [x] License
 
@@ -35,3 +35,9 @@ List of best practices:
 - [x] Security Policies
 
 - [x] Up-to-Date Documentation
+
+- [x] Protected Branches
+
+- [x] GitHub Community Standards (Insights Tab)
+
+- [x] Signed Releases: https://wiki.debian.org/Creating%20signed%20GitHub%20releases
