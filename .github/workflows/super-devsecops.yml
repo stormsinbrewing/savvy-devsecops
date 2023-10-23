@@ -23,7 +23,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout code
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Run ESLint
         run: |
           yarn install
@@ -42,7 +42,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout Repository to Runner Context
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Use Node version ${{ matrix.node-version }}
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
         with:
@@ -65,7 +65,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout Repository to Runner Context
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Use Node version ${{ matrix.node-version }}
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
         with:
@@ -94,16 +94,16 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@0116bc2df50751f9724a2e35ef1f24d22f90e4e1 # v2.22.3
+        uses: github/codeql-action/init@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
         with:
           languages: ${{ matrix.language }}
       - name: Autobuild
         uses: github/codeql-action/autobuild@0116bc2df50751f9724a2e35ef1f24d22f90e4e1 # v2.22.3
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@0116bc2df50751f9724a2e35ef1f24d22f90e4e1 # v2.22.3
+        uses: github/codeql-action/analyze@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
         with:
           category: "/language:${{matrix.language}}"
   sast_sonar:
@@ -139,7 +139,7 @@ jobs:
         with:
           egress-policy: audit
       - name: "Checkout code"
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
       - name: "Run analysis"
@@ -156,7 +156,7 @@ jobs:
           path: results.sarif
           retention-days: 5
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@0116bc2df50751f9724a2e35ef1f24d22f90e4e1 # v2.22.3
+        uses: github/codeql-action/upload-sarif@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
         with:
           sarif_file: results.sarif
   build-and-push-image:
@@ -175,7 +175,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Log in to the Container registry
         uses: docker/login-action@b4bedf8053341df3b5a9f9e0f2cf4e79e27360c6
         with:
