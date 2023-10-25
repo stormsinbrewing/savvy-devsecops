@@ -207,15 +207,13 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Log in to the Container registry
-        uses: docker/login-action@b4bedf8053341df3b5a9f9e0f2cf4e79e27360c6
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Scan the image and upload dependency results
         uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
         with:
           image: "ghcr.io/stormsinbrewing/savvy-devsecops"
           dependency-snapshot: true
           format: spdx-json
+          registry-username: ${{ github.actor }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          artifact-name: spdx.docker.json
