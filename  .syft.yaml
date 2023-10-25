@@ -1,0 +1,21 @@
+output: "spdx-json@2.2"
+
+quiet: false
+
+file: "sbom.json"
+
+platform: "arm64"
+
+# maximum number of workers used to process the list of package catalogers in parallel
+parallelism: 1
+
+log:
+  # use structured logging
+  # same as SYFT_LOG_STRUCTURED env var
+  structured: false
+  # the log level; note: detailed logging suppress the ETUI
+  # same as SYFT_LOG_LEVEL env var
+  level: "error"
+  # location to write the log file (default is not to have a log file)
+  # same as SYFT_LOG_FILE env var
+  file: ""
