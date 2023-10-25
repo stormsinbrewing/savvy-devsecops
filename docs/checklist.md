@@ -41,3 +41,5 @@ List of best practices and standard End-to-End DevSecOps Pipeline
 - [x] GitHub Community Standards (Insights Tab)
 
 - [x] Signed Releases: https://wiki.debian.org/Creating%20signed%20GitHub%20releases
+
+- [x] SBOM with Syft: https://github.com/anchore/syft

@@ -25,3 +25,10 @@ Implementing DevSecOps best practices for CI/CD (Continuous Integration/Continuo
 **9. Continuous Learning and Improvement:** Foster a culture of continuous learning and improvement by regularly updating security measures, conducting security awareness training, and staying informed about the latest security threats and best practices. Encourage developers to stay updated with the latest security guidelines and tools.
 
 By following these GitHub native DevSecOps CI/CD best practices, organizations can build a robust and secure development pipeline, ensuring that security is integrated seamlessly throughout the software development lifecycle.
+
+### SBOM with Syft
+
+```
+$ syft dir:. -o spdx-json=spdx.source.json # Source SBOM
+$ syft docker:savvy -o spdx-json=spdx.docker.json # Local Docker Image SBOM
+```
