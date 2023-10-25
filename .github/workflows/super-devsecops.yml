@@ -39,7 +39,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Scan the source code and upload dependency results
-        uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
+        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
         with:
           path: .
           dependency-snapshot: true
@@ -59,7 +59,7 @@ jobs:
       - name: Checkout Repository to Runner Context
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Use Node version ${{ matrix.node-version }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
@@ -82,7 +82,7 @@ jobs:
       - name: Checkout Repository to Runner Context
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Use Node version ${{ matrix.node-version }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
@@ -158,7 +158,7 @@ jobs:
         with:
           persist-credentials: false
       - name: "Run analysis"
-        uses: ossf/scorecard-action@483ef80eb98fb506c348f7d62e28055e49fe2398 # v2.3.0
+        uses: ossf/scorecard-action@0864cf19026789058feabb7e87baa5f140aac736 # v2.3.1
         with:
           results_file: results.sarif
           results_format: sarif
@@ -189,7 +189,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Log in to the Container registry
-        uses: docker/login-action@b4bedf8053341df3b5a9f9e0f2cf4e79e27360c6
+        uses: docker/login-action@1f401f745bf57e30b3a2800ad308a87d2ebdf14b
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -199,7 +199,7 @@ jobs:
           docker build -t ghcr.io/stormsinbrewing/savvy-devsecops .
           docker push ghcr.io/stormsinbrewing/savvy-devsecops
       - name: Image SBOM Scan with Syft
-        uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
+        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
         with:
           image: "ghcr.io/stormsinbrewing/savvy-devsecops"
           dependency-snapshot: true
