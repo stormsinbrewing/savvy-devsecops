@@ -39,7 +39,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Scan the source code and upload dependency results
-        uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
+        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
         with:
           path: .
           dependency-snapshot: true
@@ -199,7 +199,7 @@ jobs:
           docker build -t ghcr.io/stormsinbrewing/savvy-devsecops .
           docker push ghcr.io/stormsinbrewing/savvy-devsecops
       - name: Image SBOM Scan with Syft
-        uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
+        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
         with:
           image: "ghcr.io/stormsinbrewing/savvy-devsecops"
           dependency-snapshot: true
