@@ -177,8 +177,8 @@ jobs:
   build-and-push-image:
     name: BnP GHCR
     permissions:
-      contents: read # Restrict Source access
-      packages: write # GHPR
+      contents: write
+      packages: write
     runs-on: ubuntu-latest
     needs: sast_codeql
     steps:
@@ -213,9 +213,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Scan the image and upload dependency results
-        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
+      - name: BnP Docker Image
+        run: |
+          docker build -t ghcr.io/stormsinbrewing/savvy-devsecops .
+          docker push ghcr.io/stormsinbrewing/savvy-devsecops
+      - name: Image SBOM Scan with Syft
+        uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
         with:
           image: "ghcr.io/stormsinbrewing/savvy-devsecops"
           dependency-snapshot: true
           format: spdx-json
+          artifact-name: spdx.docker.json
