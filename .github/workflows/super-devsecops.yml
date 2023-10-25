@@ -10,177 +10,177 @@ permissions:
   contents: read
 
 jobs:
-  # code_quality:
-  #   name: Eslint
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     security-events: write
-  #     actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
-  #       with:
-  #         egress-policy: audit
-  #     - name: Checkout code
-  #       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-  #     - name: Run ESLint
-  #       run: |
-  #         yarn install
-  #         npx eslint .
-  #       continue-on-error: true
-  # syft-source-sbom:
-  #   name: SBOM for Source Code
-  #   needs: code_quality
-  #   permissions:
-  #     contents: write
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout the code
-  #       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-  #     - name: Scan the source code and upload dependency results
-  #       uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
-  #       with:
-  #         path: .
-  #         dependency-snapshot: true
-  #         format: spdx-json
-  # build:
-  #   name: Build
-  #   runs-on: ubuntu-latest
-  #   needs: syft-source-sbom
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x, 18.x, 20.x]
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
-  #       with:
-  #         egress-policy: audit
-  #     - name: Checkout Repository to Runner Context
-  #       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-  #     - name: Use Node version ${{ matrix.node-version }}
-  #       uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: "yarn"
-  #     - name: Install Dependencies
-  #       run: |
-  #         yarn install
-  # test:
-  #   name: Unit Tests
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x, 18.x, 20.x]
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
-  #       with:
-  #         egress-policy: audit
+  code_quality:
+    name: Eslint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          egress-policy: audit
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Run ESLint
+        run: |
+          yarn install
+          npx eslint .
+        continue-on-error: true
+  syft-source-sbom:
+    name: SBOM for Source Code
+    needs: code_quality
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Scan the source code and upload dependency results
+        uses: anchore/sbom-action@bb716408e75840bbb01e839347cd213767269d4a
+        with:
+          path: .
+          dependency-snapshot: true
+          format: spdx-json
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: syft-source-sbom
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          egress-policy: audit
+      - name: Checkout Repository to Runner Context
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Use Node version ${{ matrix.node-version }}
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - name: Install Dependencies
+        run: |
+          yarn install
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          egress-policy: audit
 
-  #     - name: Checkout Repository to Runner Context
-  #       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-  #     - name: Use Node version ${{ matrix.node-version }}
-  #       uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: "yarn"
-  #     - name: Test with Jest
-  #       run: |
-  #         yarn install
-  #         yarn test
-  # sast_codeql:
-  #   name: SAST with CodeQL
-  #   runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
-  #   timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-  #   needs: test
-  #   permissions:
-  #     actions: read
-  #     contents: read
-  #     security-events: write
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       language: ["javascript-typescript"]
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
-  #       with:
-  #         egress-policy: audit
-  #     - name: Checkout repository
-  #       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Checkout Repository to Runner Context
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Use Node version ${{ matrix.node-version }}
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - name: Test with Jest
+        run: |
+          yarn install
+          yarn test
+  sast_codeql:
+    name: SAST with CodeQL
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    needs: test
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["javascript-typescript"]
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          egress-policy: audit
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-  #     - name: Initialize CodeQL
-  #       uses: github/codeql-action/init@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
-  #       with:
-  #         languages: ${{ matrix.language }}
-  #     - name: Autobuild
-  #       uses: github/codeql-action/autobuild@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
-  #     - name: Perform CodeQL Analysis
-  #       uses: github/codeql-action/analyze@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
-  #       with:
-  #         category: "/language:${{matrix.language}}"
-  # sast_sonar:
-  #   name: SAST with SonarCloud
-  #   permissions:
-  #     pull-requests: read # allows SonarCloud to decorate PRs with analysis results
-  #   runs-on: ubuntu-latest
-  #   needs: test
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
-  #       with:
-  #         egress-policy: audit
-  #     - name: Analyze with SonarCloud
-  #       uses: SonarSource/sonarcloud-github-action@5ee47de3c96f0c1c51b09d2ff1fec0cfeefcf67c
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #       with:
-  #         args: -Dsonar.projectKey=stormsinbrewing_savvy-devsecops
-  #           -Dsonar.organization=stormsinbrewing
-  # security_scorecard:
-  #   name: OpenSSF Security Scorecards
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     # Don't make global permission: https://github.com/ossf/scorecard-action#workflow-restrictions
-  #     security-events: write # Needed to upload the results to code-scanning dashboard.
-  #     id-token: write # Needed to publish results and get a badge (see publish_results below).
-  #   needs: test
-  #   steps:
-  #     - name: Harden Runner
-  #       uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
-  #       with:
-  #         egress-policy: audit
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-  #       with:
-  #         persist-credentials: false
-  #     - name: "Run analysis"
-  #       uses: ossf/scorecard-action@483ef80eb98fb506c348f7d62e28055e49fe2398 # v2.3.0
-  #       with:
-  #         results_file: results.sarif
-  #         results_format: sarif
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_results: true
-  #     - name: "Upload artifact"
-  #       uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
-  #       with:
-  #         name: SARIF file
-  #         path: results.sarif
-  #         retention-days: 5
-  #     - name: "Upload to code-scanning"
-  #       uses: github/codeql-action/upload-sarif@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
-  #       with:
-  #         sarif_file: results.sarif
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        with:
+          category: "/language:${{matrix.language}}"
+  sast_sonar:
+    name: SAST with SonarCloud
+    permissions:
+      pull-requests: read # allows SonarCloud to decorate PRs with analysis results
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          egress-policy: audit
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@5ee47de3c96f0c1c51b09d2ff1fec0cfeefcf67c
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: -Dsonar.projectKey=stormsinbrewing_savvy-devsecops
+            -Dsonar.organization=stormsinbrewing
+  security_scorecard:
+    name: OpenSSF Security Scorecards
+    runs-on: ubuntu-latest
+    permissions:
+      # Don't make global permission: https://github.com/ossf/scorecard-action#workflow-restrictions
+      security-events: write # Needed to upload the results to code-scanning dashboard.
+      id-token: write # Needed to publish results and get a badge (see publish_results below).
+    needs: test
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          egress-policy: audit
+      - name: "Checkout code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+      - name: "Run analysis"
+        uses: ossf/scorecard-action@483ef80eb98fb506c348f7d62e28055e49fe2398 # v2.3.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_results: true
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        with:
+          sarif_file: results.sarif
   build-and-push-image:
     name: BnP GHCR
     permissions:
       contents: write
       packages: write
     runs-on: ubuntu-latest
-    # needs: sast_codeql
+    needs: sast_codeql
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
