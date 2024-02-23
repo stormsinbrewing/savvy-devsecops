@@ -183,10 +183,3 @@ jobs:
         run: |
           docker build -t ghcr.io/stormsinbrewing/savvy-devsecops .
           docker push ghcr.io/stormsinbrewing/savvy-devsecops
-      - name: Image SBOM Scan with Syft
-        uses: anchore/sbom-action@f3355df2ccd621f5873fe3c7c653ebdc5ef1bcb2
-        with:
-          image: "ghcr.io/stormsinbrewing/savvy-devsecops"
-          dependency-snapshot: true
-          format: spdx-json
-          artifact-name: spdx.docker.json
