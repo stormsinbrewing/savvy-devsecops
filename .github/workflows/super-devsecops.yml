@@ -29,25 +29,10 @@ jobs:
           yarn install
           npx eslint .
         continue-on-error: true
-  syft-source-sbom:
-    name: SBOM for Source Code
-    needs: code_quality
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: Scan the source code and upload dependency results
-        uses: anchore/sbom-action@f3355df2ccd621f5873fe3c7c653ebdc5ef1bcb2
-        with:
-          path: .
-          dependency-snapshot: true
-          format: spdx-json
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: syft-source-sbom
+    needs: code_quality
     strategy:
       matrix:
         node-version: [16.x, 18.x, 20.x]
