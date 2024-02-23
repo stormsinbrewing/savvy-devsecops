@@ -19,7 +19,7 @@ jobs:
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
       - name: Checkout code
@@ -39,7 +39,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Scan the source code and upload dependency results
-        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
+        uses: anchore/sbom-action@c7f031d9249a826a082ea14c79d3b686a51d485a
         with:
           path: .
           dependency-snapshot: true
@@ -53,7 +53,7 @@ jobs:
         node-version: [16.x, 18.x, 20.x]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
       - name: Checkout Repository to Runner Context
@@ -75,7 +75,7 @@ jobs:
         node-version: [16.x, 18.x, 20.x]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
 
@@ -105,20 +105,20 @@ jobs:
         language: ["javascript-typescript"]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        uses: github/codeql-action/init@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
         with:
           languages: ${{ matrix.language }}
       - name: Autobuild
-        uses: github/codeql-action/autobuild@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        uses: github/codeql-action/autobuild@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        uses: github/codeql-action/analyze@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
         with:
           category: "/language:${{matrix.language}}"
   sast_sonar:
@@ -129,7 +129,7 @@ jobs:
     needs: test
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
       - name: Analyze with SonarCloud
@@ -150,7 +150,7 @@ jobs:
     needs: test
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
       - name: "Checkout code"
@@ -171,7 +171,7 @@ jobs:
           path: results.sarif
           retention-days: 5
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@49abf0ba24d0b7953cb586944e918a0b92074c80 # v2.22.4
+        uses: github/codeql-action/upload-sarif@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
         with:
           sarif_file: results.sarif
   build-and-push-image:
@@ -183,13 +183,13 @@ jobs:
     needs: sast_codeql
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Log in to the Container registry
-        uses: docker/login-action@1f401f745bf57e30b3a2800ad308a87d2ebdf14b
+        uses: docker/login-action@3d58c274f17dffee475a5520cbe67f0a882c4dbb
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -199,7 +199,7 @@ jobs:
           docker build -t ghcr.io/stormsinbrewing/savvy-devsecops .
           docker push ghcr.io/stormsinbrewing/savvy-devsecops
       - name: Image SBOM Scan with Syft
-        uses: anchore/sbom-action@ace0b9722a703812d78949ee4ac5b90de1c0eba2
+        uses: anchore/sbom-action@c7f031d9249a826a082ea14c79d3b686a51d485a
         with:
           image: "ghcr.io/stormsinbrewing/savvy-devsecops"
           dependency-snapshot: true
