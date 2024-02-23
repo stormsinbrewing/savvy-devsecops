@@ -19,7 +19,7 @@ jobs:
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
       - name: Checkout code
@@ -39,7 +39,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Scan the source code and upload dependency results
-        uses: anchore/sbom-action@c7f031d9249a826a082ea14c79d3b686a51d485a
+        uses: anchore/sbom-action@f3355df2ccd621f5873fe3c7c653ebdc5ef1bcb2
         with:
           path: .
           dependency-snapshot: true
@@ -53,7 +53,7 @@ jobs:
         node-version: [16.x, 18.x, 20.x]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
       - name: Checkout Repository to Runner Context
@@ -75,7 +75,7 @@ jobs:
         node-version: [16.x, 18.x, 20.x]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
 
@@ -105,7 +105,7 @@ jobs:
         language: ["javascript-typescript"]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
       - name: Checkout repository
@@ -129,11 +129,11 @@ jobs:
     needs: test
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
       - name: Analyze with SonarCloud
-        uses: SonarSource/sonarcloud-github-action@5ee47de3c96f0c1c51b09d2ff1fec0cfeefcf67c
+        uses: SonarSource/sonarcloud-github-action@44eed6088a971ec48af9300c3701483b8815f622
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -150,7 +150,7 @@ jobs:
     needs: test
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
       - name: "Checkout code"
@@ -183,13 +183,13 @@ jobs:
     needs: sast_codeql
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Log in to the Container registry
-        uses: docker/login-action@3d58c274f17dffee475a5520cbe67f0a882c4dbb
+        uses: docker/login-action@83a00bc1ab5ded6580f31df1c49e6aaa932d840d
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -199,7 +199,7 @@ jobs:
           docker build -t ghcr.io/stormsinbrewing/savvy-devsecops .
           docker push ghcr.io/stormsinbrewing/savvy-devsecops
       - name: Image SBOM Scan with Syft
-        uses: anchore/sbom-action@c7f031d9249a826a082ea14c79d3b686a51d485a
+        uses: anchore/sbom-action@f3355df2ccd621f5873fe3c7c653ebdc5ef1bcb2
         with:
           image: "ghcr.io/stormsinbrewing/savvy-devsecops"
           dependency-snapshot: true

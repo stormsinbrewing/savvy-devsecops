@@ -1,4 +1,4 @@
-FROM node:21-alpine@sha256:39bf945d56c29e7b3fa51632a7a07080475e5d5e5fc981543cdb735bc3bc01eb AS builder
+FROM node:21-alpine@sha256:d3271e4bd89eec4d97087060fd4db0c238d9d22fcfad090a73fa9b5128699888 AS builder
 ENV NODE_ENV production
 WORKDIR /app
 COPY package.json .
@@ -7,7 +7,7 @@ RUN yarn install --production
 COPY . .
 RUN yarn build
 
-FROM nginx:1.25.3-alpine@sha256:3923f8de8d2214b9490e68fd6ae63ea604deddd166df2755b788bef04848b9bc as production
+FROM nginx:1.25.3-alpine@sha256:f2802c2a9d09c7aa3ace27445dfc5656ff24355da28e7b958074a0111e3fc076 as production
 ENV NODE_ENV production
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
