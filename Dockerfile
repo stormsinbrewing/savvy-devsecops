@@ -1,4 +1,4 @@
-FROM node:21-alpine@sha256:d3271e4bd89eec4d97087060fd4db0c238d9d22fcfad090a73fa9b5128699888 AS builder
+FROM node:22-alpine@sha256:9459e243f620fff19380c51497493e91db1454f5a30847efe5bc5e50920748d5 AS builder
 ENV NODE_ENV production
 WORKDIR /app
 COPY package.json .
